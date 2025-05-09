@@ -58,10 +58,10 @@ namespace ZXing.Net.Maui
 
 				// Preview
 				cameraPreview = new AndroidX.Camera.Core.Preview.Builder().Build();
-				cameraPreview.SetSurfaceProvider(previewView.SurfaceProvider);
+                cameraPreview.SetSurfaceProvider(cameraExecutor, previewView.SurfaceProvider);
 
-				// Frame by frame analyze
-				imageAnalyzer = new ImageAnalysis.Builder()
+                // Frame by frame analyze
+                imageAnalyzer = new ImageAnalysis.Builder()
 					.SetDefaultResolution(new Android.Util.Size(640, 480))
 					.SetBackpressureStrategy(ImageAnalysis.StrategyKeepOnlyLatest)
 					.Build();
@@ -75,7 +75,9 @@ namespace ZXing.Net.Maui
 		}
 
 		public void Disconnect()
-		{ }
+		{
+            cameraProvider.UnbindAll();
+        }
 
 		public void UpdateCamera()
 		{
@@ -127,7 +129,7 @@ namespace ZXing.Net.Maui
 
 		public void Dispose()
 		{
-			cameraProvider?.Shutdown();
+			//cameraProvider?.Shutdown();
 
 			cameraExecutor?.Shutdown();
 			cameraExecutor?.Dispose();

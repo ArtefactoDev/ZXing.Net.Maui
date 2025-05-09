@@ -5,8 +5,8 @@ using System;
 
 namespace ZXing.Net.Maui
 {
-	internal class FrameAnalyzer : Java.Lang.Object, ImageAnalysis.IAnalyzer
-	{
+    public class FrameAnalyzer : Java.Lang.Object, ImageAnalysis.IAnalyzer
+    {
 		readonly Action<ByteBuffer, Size> frameCallback;
 
 		public FrameAnalyzer(Action<ByteBuffer, Size> callback)
@@ -14,7 +14,9 @@ namespace ZXing.Net.Maui
 			frameCallback = callback;
 		}
 
-		public void Analyze(IImageProxy image)
+        public Size DefaultTargetResolution => new Size(200, 200);
+
+        public void Analyze(IImageProxy image)
 		{
 			var buffer = image.GetPlanes()[0].Buffer;
 
